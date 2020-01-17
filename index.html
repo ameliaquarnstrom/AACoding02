@@ -21,8 +21,12 @@
 <body translate="no">
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-</div>
+<audio id="sad" controls>
+<source src="https://math.seattleacademy.org/garyanderson/snd/sad.mp3" type="audio/mpeg">
+Your browser does not support the audio tag
+</audio>
 <h1>amelia's 10 favorite math problem</h1>
+<div>Timer: <span id="theTime">0</span> Score: <span id="score">0</span></div>
 <ol>
 <li>\( \sqrt[3]{8} + \sqrt[3]{27} \)
 <input data-correct="5" />
@@ -49,18 +53,33 @@
 </ol>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
 <script id="rendered-js">
+console.clear();
+const sad = document.getElementById("sad");
+setInterval(upTime, 1000);
+
+function upTime() {
+  let theTime = Number($("#theTime").text());
+  theTime = theTime + 1;
+  $("#theTime").text(theTime);
+}
 $("input").change(onChange);
+
 function onChange(evt) {
   let correct = $(this).data("correct");
   let response = $(this).val();
-  console.log(correct, response);
 
   if (correct == response) {
     $(this)
       .removeClass("incorrect")
       .addClass("correct");
-  } else{
-        $(this)
+    let theScore = Number($("#score").text());
+    theScore = theScore + 1;
+    $("#score").text(theScore);
+  } else {
+    if (Math.random() > 0.1) {
+      sad.play();
+    }
+    $(this)
       .removeClass("correct")
       .addClass("incorrect");
   }
